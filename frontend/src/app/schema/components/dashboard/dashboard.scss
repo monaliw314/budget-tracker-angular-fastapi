@@ -1,0 +1,135 @@
+// .dashboard {
+//   padding: 20px;
+// }
+
+// .summary-cards {
+//   display: flex;
+//   gap: 16px;
+//   margin-bottom: 24px;
+// }
+
+// .card {
+//   flex: 1;
+//   text-align: center;
+//   padding: 16px;
+//   font-size: 1.2rem;
+// }
+
+// .income mat-card-content { color: green; font-weight: bold; }
+// .expense mat-card-content { color: red; font-weight: bold; }
+// .balance mat-card-content { color: #1976d2; font-weight: bold; }
+
+// .chart-container {
+//   margin-top: 20px;
+// }
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.card {
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+
+  mat-card-title {
+    font-size: 0.95rem;
+    color: #666;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+
+  mat-card-content {
+    font-size: 1.6rem;
+    font-weight: 700;
+  }
+}
+
+.income mat-card-content { color: #16a34a; }
+.expense mat-card-content { color: #dc2626; }
+.balance mat-card-content { color: #1976d2; }
+
+.dashboard-row {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 16px;
+}
+
+.chart-card, .top-categories-card {
+  padding: 20px;
+  border-radius: 12px;
+
+  mat-card-title {
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+  }
+}
+
+.chart-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.category-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.cat-name {
+  color: #444;
+}
+
+.cat-amount {
+  font-weight: 600;
+  color: #dc2626;
+}
+
+@media (max-width: 800px) {
+  .summary-cards {
+    grid-template-columns: 1fr;
+  }
+  .dashboard-row {
+    grid-template-columns: 1fr;
+  }
+}
+.top-categories-card {
+  padding: 20px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+
+  mat-card-title {
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+  }
+}
+
+.category-list {
+  max-height: 280px;
+  overflow-y: auto;
+  padding-right: 4px; // avoid content hiding behind scrollbar
+}
+
+.category-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}

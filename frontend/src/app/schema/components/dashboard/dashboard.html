@@ -1,0 +1,75 @@
+<!-- <div class="dashboard">
+  <h2>Dashboard</h2>
+
+  <div class="summary-cards">
+    <mat-card class="card income">
+      <mat-card-title>Total Income</mat-card-title>
+      <mat-card-content>₹{{ totalIncome }}</mat-card-content>
+    </mat-card>
+
+    <mat-card class="card expense">
+      <mat-card-title>Total Expense</mat-card-title>
+      <mat-card-content>₹{{ totalExpense }}</mat-card-content>
+    </mat-card>
+
+    <mat-card class="card balance">
+      <mat-card-title>Net Balance</mat-card-title>
+      <mat-card-content>₹{{ netBalance }}</mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="chart-container" *ngIf="categoryChartData.length > 0">
+    <h3>Expenses by Category</h3>
+    <ngx-charts-pie-chart
+      [results]="categoryChartData"
+      [labels]="true"
+      [doughnut]="false"
+      [view]="[500, 300]">
+    </ngx-charts-pie-chart>
+  </div>
+
+  <p *ngIf="categoryChartData.length === 0">No expense data yet to display chart.</p>
+</div> -->
+<div class="dashboard">
+  <div class="summary-cards">
+    <mat-card class="card income">
+      <mat-card-title>Total Income</mat-card-title>
+      <mat-card-content>₹{{ totalIncome }}</mat-card-content>
+    </mat-card>
+
+    <mat-card class="card expense">
+      <mat-card-title>Total Expense</mat-card-title>
+      <mat-card-content>₹{{ totalExpense }}</mat-card-content>
+    </mat-card>
+
+    <mat-card class="card balance">
+      <mat-card-title>Net Balance</mat-card-title>
+      <mat-card-content>₹{{ netBalance }}</mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="dashboard-row">
+    <mat-card class="chart-card" *ngIf="categoryChartData.length > 0">
+      <mat-card-title>Expenses by Category</mat-card-title>
+      <div class="chart-wrapper">
+        <ngx-charts-pie-chart
+          [results]="categoryChartData"
+          [labels]="true"
+          [doughnut]="true"
+          [arcWidth]="0.5"
+          [view]="[380, 280]">
+        </ngx-charts-pie-chart>
+      </div>
+    </mat-card>
+
+    <mat-card class="top-categories-card">
+  <mat-card-title>Top Spending Categories</mat-card-title>
+  <div class="category-list">
+    <div class="category-row" *ngFor="let cat of categoryChartData">
+      <span class="cat-name">{{ cat.name }}</span>
+      <span class="cat-amount">₹{{ cat.value | number:'1.0-0' }}</span>
+    </div>
+  </div>
+</mat-card>
+  </div>
+</div>
