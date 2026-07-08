@@ -13,16 +13,21 @@ import { Transaction } from '../../../models/transaction.model';
 import { TransactionService } from '../../services/transaction';
 import {TransactionForm} from '../transaction-form/transaction-form';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-transaction-list',
   imports: [
-    CommonModule, MatTableModule, MatPaginatorModule, MatSortModule,MatCardModule,
-    MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule, MatDialogModule
+    CommonModule, MatTableModule, MatPaginatorModule, MatSortModule,MatCardModule,FormsModule,
+    MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule, MatDialogModule,MatDatepickerModule,MatNativeDateModule
   ],
   templateUrl: './transaction-list.html',
   styleUrl: './transaction-list.scss',
 })
 export class TransactionList implements OnInit {
+  startDate: Date | null = null;
+  endDate: Date | null = null;
   transactions: Transaction[] = [];
   displayedColumns: string[] = ['title', 'category', 'type', 'amount', 'date', 'actions'];
   dataSource = new MatTableDataSource<Transaction>([]);
@@ -87,5 +92,28 @@ export class TransactionList implements OnInit {
         this.loadTransactions();
       }
     });
+  }
+
+  applyDateFilter(): void {
+    if (this.startDate && this.endDate) {
+      const start = this.formatDate(this.startDate);
+      const end = this.formatDate(this.endDate);
+      this.transactionService.getTransactions(start, end).subscribe({
+        next: (data) => {
+          this.dataSource.data = data;
+        },
+        error: (err) => console.error('Error fetching filtered transactions:', err)
+      });
+    }
+  }
+
+  clearDateFilter(): void {
+    this.startDate = null;
+    this.endDate = null;
+    this.loadTransactions();
+  }
+
+  private formatDate(date: Date): string {
+    return date.toISOString().split('T')[0];
   }
 }

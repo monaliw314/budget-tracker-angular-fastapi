@@ -1,5 +1,5 @@
 .transaction-list {
-  padding: 24px;
+  padding-left: 24px;
   border-radius: 12px;
 }
 
@@ -71,3 +71,10 @@ td.mat-mdc-cell, th.mat-mdc-header-cell {
 
 .amount.income { color: #16a34a; }
 .amount.expense { color: #dc2626; }
+
+.filter-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}

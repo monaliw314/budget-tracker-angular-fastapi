@@ -63,13 +63,32 @@
     </mat-card>
 
     <mat-card class="top-categories-card">
-  <mat-card-title>Top Spending Categories</mat-card-title>
-  <div class="category-list">
-    <div class="category-row" *ngFor="let cat of categoryChartData">
-      <span class="cat-name">{{ cat.name }}</span>
-      <span class="cat-amount">₹{{ cat.value | number:'1.0-0' }}</span>
+    <mat-card-title>Top Spending Categories</mat-card-title>
+    <div class="category-list">
+        <div class="category-row" *ngFor="let cat of categoryChartData">
+        <span class="cat-name">{{ cat.name }}</span>
+        <span class="cat-amount">₹{{ cat.value | number:'1.0-0' }}</span>
+        </div>
     </div>
-  </div>
-</mat-card>
+    </mat-card>
+
+    
   </div>
 </div>
+
+<mat-card class="trend-card" *ngIf="monthlyTrendData.length > 0">
+    <mat-card-title>Monthly Income vs Expense</mat-card-title>
+    <div class="chart-wrapper">
+        <ngx-charts-bar-vertical-2d
+        [results]="monthlyTrendData"
+        [xAxis]="true"
+        [yAxis]="true"
+        [legend]="true"
+        [showXAxisLabel]="true"
+        [showYAxisLabel]="true"
+        xAxisLabel="Month"
+        yAxisLabel="Amount"
+        [view]="[700, 300]">
+        </ngx-charts-bar-vertical-2d>
+    </div>
+    </mat-card>

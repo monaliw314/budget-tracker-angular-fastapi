@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Transaction } from '../../models/transaction.model';
 @Injectable({
@@ -11,10 +11,18 @@ export class TransactionService {
 
   constructor(private http: HttpClient) {}
 
-  getTransactions(): Observable<Transaction[]> {
-    return this.http.get<Transaction[]>(this.apiUrl);
-  }
+    // getTransactions(): Observable<Transaction[]> {
+    //   return this.http.get<Transaction[]>(this.apiUrl);
+    // }
 
+  getTransactions(startDate?: string, endDate?: string): Observable<Transaction[]> {
+  let params = new HttpParams();
+  if (startDate) params = params.set('start_date', startDate);
+  if (endDate) params = params.set('end_date', endDate);
+
+  return this.http.get<Transaction[]>(this.apiUrl, { params });
+  }
+  
   getTransaction(id: number): Observable<Transaction> {
     return this.http.get<Transaction>(`${this.apiUrl}/${id}`);
   }

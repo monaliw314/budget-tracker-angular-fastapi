@@ -133,3 +133,14 @@
     border-bottom: none;
   }
 }
+
+.trend-card {
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: 16px;
+
+  mat-card-title {
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+  }
+}

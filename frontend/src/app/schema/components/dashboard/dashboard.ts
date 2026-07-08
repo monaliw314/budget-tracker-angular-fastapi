@@ -32,6 +32,8 @@ export class DashboardComponent implements OnInit {
 
   categoryChartData: { name: string; value: number }[] = [];
 
+  monthlyTrendData: { name: string; series: { name: string; value: number }[] }[] = [];
+
   constructor(private transactionService: TransactionService) {}
 
   ngOnInit(): void {
@@ -40,6 +42,7 @@ export class DashboardComponent implements OnInit {
         this.transactions = data;
         this.calculateSummary();
         this.buildCategoryChart();
+        this.buildMonthlyTrend();
       },
       error: (err) => console.error('Error fetching transactions:', err)
     });
@@ -72,5 +75,33 @@ export class DashboardComponent implements OnInit {
       name: category,
       value: expensesByCategory[category]
     }));
+  }
+
+  buildMonthlyTrend(): void {
+  const monthlyData: { [month: string]: { income: number; expense: number } } = {};
+
+  this.transactions.forEach(t => {
+    const monthKey = t.date.substring(0, 7); // "2026-06" from "2026-06-01"
+    if (!monthlyData[monthKey]) {
+      monthlyData[monthKey] = { income: 0, expense: 0 };
+    }
+    if (t.type === 'income') {
+      monthlyData[monthKey].income += t.amount;
+    } else {
+      monthlyData[monthKey].expense += t.amount;
+    }
+  });
+  const sortedMonths = Object.keys(monthlyData).sort();
+
+  this.monthlyTrendData = [
+    {
+      name: 'Income',
+      series: sortedMonths.map(month => ({ name: month, value: monthlyData[month].income }))
+    },
+    {
+      name: 'Expense',
+      series: sortedMonths.map(month => ({ name: month, value: monthlyData[month].expense }))
+    }
+  ];
   }
 }

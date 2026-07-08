@@ -5,6 +5,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 import models, schemas, crud
 from database import engine, SessionLocal, Base
+from datetime import date
+from typing import Optional
 
 Base.metadata.create_all(bind=engine)
 
@@ -30,8 +32,16 @@ def read_root():
     return {"message": "Budget Tracker API is running"}
 
 @app.get("/transactions", response_model=list[schemas.Transaction])
-def read_transactions(db: Session = Depends(get_db)):
-    return crud.get_transactions(db)
+def read_transactions(
+    start_date: Optional[date] = None,
+    end_date: Optional[date] = None,
+    db: Session = Depends(get_db)
+):
+    return crud.get_transactions(db, start_date, end_date)
+
+# @app.get("/transactions", response_model=list[schemas.Transaction])
+# def read_transactions(db: Session = Depends(get_db)):
+#     return crud.get_transactions(db)
 
 @app.post("/transactions")
 def create_transaction(transaction: schemas.TransactionCreate, db: Session = Depends(get_db)):
