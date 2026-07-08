@@ -1,3 +1,5 @@
+from unittest import result
+
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
@@ -10,7 +12,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["localhost:4200", "http://localhost:4200"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -31,13 +33,27 @@ def read_root():
 def read_transactions(db: Session = Depends(get_db)):
     return crud.get_transactions(db)
 
-@app.post("/transactions", response_model=schemas.Transaction)
+@app.post("/transactions")
 def create_transaction(transaction: schemas.TransactionCreate, db: Session = Depends(get_db)):
-    return crud.create_transaction(db, transaction)
+    result = crud.create_transaction(db, transaction)
+    return {
+        "message": "Record created successfully",
+        "data": schemas.Transaction.model_validate(result)
+    }
 
 @app.delete("/transactions/{transaction_id}")
 def delete_transaction(transaction_id: int, db: Session = Depends(get_db)):
     result = crud.delete_transaction(db, transaction_id)
     if not result:
         raise HTTPException(status_code=404, detail="Transaction not found")
-    return {"message": "Deleted successfully"}
+    return {"message": "Record Deleted successfully"}
+
+@app.put("/transactions/{transaction_id}")
+def update_transaction(transaction_id: int, transaction: schemas.TransactionCreate, db: Session = Depends(get_db)):
+    result = crud.update_transaction(db, transaction_id, transaction)
+    if not result:
+        raise HTTPException(status_code=404, detail="Transaction not found")
+    return {
+        "message": "Record updated successfully",
+        "data": schemas.Transaction.model_validate(result)
+    }

@@ -12,6 +12,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { Transaction } from '../../../models/transaction.model';
 import { TransactionService } from '../../services/transaction';
 import {TransactionForm} from '../transaction-form/transaction-form';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-transaction-list',
   imports: [
@@ -28,7 +29,7 @@ export class TransactionList implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private transactionService: TransactionService,private dialog: MatDialog) {}
+  constructor(private transactionService: TransactionService,private dialog: MatDialog,private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     this.loadTransactions();
@@ -52,11 +53,26 @@ export class TransactionList implements OnInit {
 
   deleteTransaction(id: number): void {
     this.transactionService.deleteTransaction(id).subscribe({
-      next: () => {
+      next: (response:any) => {
+        this.snackBar.open(response.message, 'Close', { duration: 3000 });
         this.loadTransactions(); // refresh list after delete
       },
       error: (err:any) => {
+        this.snackBar.open('Error deleting transaction', 'Close', { duration: 3000 });
         console.error('Error deleting transaction:', err);
+      }
+    });
+  }
+
+  openEditDialog(transaction: Transaction): void {
+    const dialogRef = this.dialog.open(TransactionForm, {
+      width: '400px',
+      data: transaction
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadTransactions();
       }
     });
   }

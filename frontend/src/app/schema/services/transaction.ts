@@ -6,7 +6,8 @@ import { Transaction } from '../../models/transaction.model';
   providedIn: 'root',
 })
 export class TransactionService {
-  private apiUrl = 'https://budget-tracker-angular-fastapi.onrender.com/transactions';
+  //private apiUrl = 'https://budget-tracker-angular-fastapi.onrender.com/transactions';
+  private apiUrl = 'http://127.0.0.1:8000/transactions'; // Local FastAPI backend URL
 
   constructor(private http: HttpClient) {}
 
@@ -22,9 +23,9 @@ export class TransactionService {
     return this.http.post<Transaction>(this.apiUrl, transaction);
   }
 
-  // updateTransaction(id: number, transaction: Transaction): Observable<Transaction> {
-  //   return this.http.put<Transaction>(`${this.apiUrl}/${id}`, transaction);
-  // }
+  updateTransaction(id: number, transaction: Transaction): Observable<Transaction> {
+    return this.http.put<Transaction>(`${this.apiUrl}/${id}`, transaction);
+  }
 
   deleteTransaction(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);

@@ -17,3 +17,12 @@ def delete_transaction(db: Session, transaction_id: int):
         db.delete(db_transaction)
         db.commit()
     return db_transaction
+
+def update_transaction(db: Session, transaction_id: int, transaction: schemas.TransactionCreate):
+    db_transaction = db.query(models.Transaction).filter(models.Transaction.id == transaction_id).first()
+    if db_transaction:
+        for key, value in transaction.dict().items():
+            setattr(db_transaction, key, value)
+        db.commit()
+        db.refresh(db_transaction)
+    return db_transaction
