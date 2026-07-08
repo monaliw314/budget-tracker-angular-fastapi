@@ -1,5 +1,4 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { TransactionList } from "./schema/components/transaction-list/transaction-list";
 import {DashboardComponent} from "./schema/components/dashboard/dashboard";
 import {MatGridListModule} from '@angular/material/grid-list';
