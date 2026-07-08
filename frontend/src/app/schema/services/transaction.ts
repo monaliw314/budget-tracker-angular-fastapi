@@ -6,8 +6,8 @@ import { Transaction } from '../../models/transaction.model';
   providedIn: 'root',
 })
 export class TransactionService {
-  //private apiUrl = 'https://budget-tracker-angular-fastapi.onrender.com/transactions';
-  private apiUrl = 'http://127.0.0.1:8000/transactions'; // Local FastAPI backend URL
+  private apiUrl = 'https://budget-tracker-angular-fastapi.onrender.com/transactions';
+  //private apiUrl = 'http://127.0.0.1:8000/transactions'; // Local FastAPI backend URL
 
   constructor(private http: HttpClient) {}
 
