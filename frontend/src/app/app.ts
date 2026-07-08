@@ -13,7 +13,7 @@ export interface Tile {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, TransactionList, DashboardComponent,MatGridListModule, MatCardModule],
+  imports: [TransactionList, DashboardComponent,MatGridListModule, MatCardModule],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
